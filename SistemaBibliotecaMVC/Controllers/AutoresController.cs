@@ -9,7 +9,7 @@ namespace SistemaBibliotecaMVC.Controllers
     {
         public IActionResult Index()
         {
-            // Guardamos los 5 autores en una lista para mandarlos a la vista
+            // Guardamos los 5 autores en una lista para mandarlos a la vista 
             var listaAutores = new List<Autor>
             {
                 new Autor { Id = 1, Nombre = "Gabriel", Apellido = "García Márquez", Nacionalidad = "Colombiana", FechaNacimiento = new DateTime(1927, 3, 6), Activo = false },
