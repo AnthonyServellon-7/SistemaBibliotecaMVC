@@ -1,0 +1,8 @@
+﻿@{
+    ViewData["Title"] = "Usuarios";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Gestión de Usuarios</h1>
+    <p>Aquí se administrarán los lectores y estudiantes registrados.</p>
+</div>
