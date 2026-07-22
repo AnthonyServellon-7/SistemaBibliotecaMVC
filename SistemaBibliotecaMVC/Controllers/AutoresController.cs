@@ -9,7 +9,7 @@ namespace SistemaBibliotecaMVC.Controllers
     {
         public IActionResult Index()
         {
-            // Guardo los 5 autores en una lista para mandarlos a la vista
+            // Guardamos los 5 autores en una lista para mandarlos a la vista
             var listaAutores = new List<Autor>
             {
                 new Autor { Id = 1, Nombre = "Gabriel", Apellido = "García Márquez", Nacionalidad = "Colombiana", FechaNacimiento = new DateTime(1927, 3, 6), Activo = false },
@@ -19,7 +19,7 @@ namespace SistemaBibliotecaMVC.Controllers
                 new Autor { Id = 5, Nombre = "Laura", Apellido = "Esquivel", Nacionalidad = "Mexicana", FechaNacimiento = new DateTime(1950, 9, 30), Activo = true }
             };
 
-            // Retorno la vista pasando la lista como modelo
+            // Retornamos la vista pasando la lista como modelo
             return View(listaAutores);
         }
     }

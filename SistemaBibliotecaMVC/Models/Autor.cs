@@ -2,7 +2,7 @@
 {
     public class Autor
     {
-        // Creo las propiedades que pidió el ingeniero para el autor
+        // Creo las propiedades  
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
