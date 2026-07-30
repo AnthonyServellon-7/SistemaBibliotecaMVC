@@ -1,0 +1,37 @@
+﻿@model SistemaBibliotecaMVC.Models.Libro
+
+@{
+    ViewData["Title"] = "Agregar Libro";
+}
+
+<div class="container mt-4">
+    <h2>Agregar Nuevo Libro</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Crear">
+                <div class="mb-3">
+                    <label asp-for="Titulo" class="form-label"></label>
+                    <input asp-for="Titulo" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Autor" class="form-label"></label>
+                    <input asp-for="Autor" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="AnioPublicacion" class="form-label">Año de Publicación</label>
+                    <input asp-for="AnioPublicacion" type="number" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label asp-for="ImagenUrl" class="form-label">Nombre de la Imagen (ej. libro3.jpg)</label>
+                    <!-- Aquí el usuario puede escribir el nombre de la imagen, o dejarlo vacío para usar default.jpg -->
+                    <input asp-for="ImagenUrl" class="form-control" placeholder="Si lo dejas vacío, usará default.jpg" />
+                </div>
+
+                <button type="submit" class="btn btn-success">Guardar Libro</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </form>
+        </div>
+    </div>
+</div>
