@@ -1,31 +1,65 @@
-html {
-  font-size: 14px;
+/* =========================================
+   ESTILOS PARA ACERCA 
+   ========================================= */
+
+.about-main-container {
+    margin-top: 2rem;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+.about-header h1 {
+    color: #2c3e50;
+    font-weight: 600;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+/* Estilos de CSS3 personalizados */
+.about-article {
+    background-color: #ffffff;
+    border-left: 5px solid #258cfb;
+    border-radius: 8px;
+    margin-bottom: 2rem;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+    .about-article h2 {
+        color: #258cfb;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .about-article p {
+        line-height: 1.7;
+        color: #444;
+        text-align: justify;
+        font-size: 1.1rem;
+    }
+
+.about-sidebar div {
+    border: 1px solid #e9ecef;
 }
 
-body {
-  margin-bottom: 60px;
+.about-sidebar h3 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* Diseño Responsivo -Media Queries adicionales */
+@media (max-width: 991.98px) {
+    .about-sidebar {
+        margin-top: 2rem;
+    }
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+@media (max-width: 767.98px) {
+    .about-article h2 {
+        font-size: 1.5rem;
+    }
+
+    .about-header h1 {
+        font-size: 2.2rem;
+    }
+
+    .about-article p {
+        font-size: 1rem;
+        text-align: left; 
+    }
 }

@@ -2,7 +2,36 @@
     ViewData["Title"] = "Acerca de";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Acerca del Sistema</h1>
-    <p>Proyecto práctico de Programación Web 2 ejecutándose bajo .NET 10.0.</p>
-</div>
+<!-- HTML5 Semántico -->
+<main class="about-main-container container mt-4">
+    <header class="about-header text-center mb-5">
+        <h1 class="display-4">Nuestra Biblioteca Virtual</h1>
+        <p class="text-muted lead">Conectando lectores con el conocimiento desde 2026</p>
+    </header>
+
+    <div class="row">
+        <!-- Contenido principal -->
+        <section class="col-lg-8 about-content">
+            <article class="about-article p-4 shadow-sm">
+                <h2>Misión</h2>
+                <p>Fomentar la lectura y el acceso a la información mediante una plataforma moderna, rápida y amigable. Creemos que cada libro es una puerta a un mundo nuevo y trabajamos para que ese conocimiento esté al alcance de toda la comunidad estudiantil y académica.</p>
+                
+                <h2 class="mt-4">Visión</h2>
+                <p>Convertirnos en la biblioteca virtual de referencia a nivel nacional, ofreciendo servicios bibliotecarios digitales de primer nivel, integrando nuevas tecnologías y apoyando la educación continua de nuestros usuarios.</p>
+            </article>
+        </section>
+
+        <!-- Barra lateral -->
+        <aside class="col-lg-4 about-sidebar">
+            <div class="p-4 bg-light shadow-sm rounded text-center h-100">
+                <h3>Horario de Atención</h3>
+                <hr />
+                <ul class="list-unstyled text-start ms-3">
+                    <li class="mb-2"><strong>Lunes a Viernes:</strong><br /> 8:00 AM - 6:00 PM</li>
+                    <li class="mb-2"><strong>Sábados:</strong><br /> 9:00 AM - 1:00 PM</li>
+                    <li class="mb-2 text-success"><strong>Plataforma Virtual:</strong><br /> Disponible 24/7</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+</main>
