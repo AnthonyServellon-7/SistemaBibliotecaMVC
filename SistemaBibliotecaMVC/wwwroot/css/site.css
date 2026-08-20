@@ -1,65 +1,85 @@
 /* =========================================
-   ESTILOS PARA ACERCA 
+   FLEXBOX, GRID Y COMPONENTES
    ========================================= */
 
-.about-main-container {
-    margin-top: 2rem;
+
+.flex-cards-container {
+    display: flex;
+    flex-direction: row; 
+    justify-content: center; 
+    gap: 2rem; 
+    flex-wrap: wrap; 
 }
 
-.about-header h1 {
-    color: #2c3e50;
-    font-weight: 600;
+.flex-card {
+    flex: 1 1 calc(33.333% - 2rem); 
+    min-width: 280px; 
+    display: flex;
+    flex-direction: column; 
 }
 
-/* Estilos de CSS3 personalizados */
-.about-article {
-    background-color: #ffffff;
-    border-left: 5px solid #258cfb;
+
+.grid-libros-destacados {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.grid-item {
+    background-color: #f8f9fa;
+    border-left: 5px solid #ffc107;
+    padding: 1.5rem;
     border-radius: 8px;
-    margin-bottom: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-    .about-article h2 {
-        color: #258cfb;
-        font-size: 1.8rem;
-        margin-bottom: 1rem;
+    .grid-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
     }
 
-    .about-article p {
-        line-height: 1.7;
-        color: #444;
-        text-align: justify;
-        font-size: 1.1rem;
-    }
 
-.about-sidebar div {
-    border: 1px solid #e9ecef;
+.grid-section-container {
+    margin-bottom: 100px !important;
+    padding-bottom: 40px;
 }
 
-.about-sidebar h3 {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 10px;
+/* Componente Reutilizable */
+.componente-reutilizable-tarjeta {
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    padding: 1rem;
+    flex: 1 1 calc(50% - 1rem);
+    min-width: 200px;
 }
 
-/* Diseño Responsivo -Media Queries adicionales */
-@media (max-width: 991.98px) {
-    .about-sidebar {
-        margin-top: 2rem;
+    .componente-reutilizable-tarjeta h5 {
+        color: #2c3e50;
+        font-weight: bold;
+    }
+
+/* ACT 3: Diseño Adaptable (Media Queries Adicionales) */
+@media (max-width: 768px) {
+    /* En móviles, forzamos a Flexbox a apilar todo en columna */
+    .flex-cards-container {
+        flex-direction: column;
+    }
+
+    .flex-card, .componente-reutilizable-tarjeta {
+        flex: 1 1 100%;
     }
 }
 
-@media (max-width: 767.98px) {
-    .about-article h2 {
-        font-size: 1.5rem;
-    }
+/* =========================================
+   FOOTER
+   ========================================= */
+.footer {
+    position: static !important; 
+    margin-top: 50px; 
+    padding: 20px 0; 
+}
 
-    .about-header h1 {
-        font-size: 2.2rem;
-    }
-
-    .about-article p {
-        font-size: 1rem;
-        text-align: left; 
-    }
+body {
+    margin-bottom: 0 !important; 
 }

@@ -2,7 +2,7 @@
     ViewData["Title"] = "Inicio";
 }
 
-<!-- Carrusel de Bootstrap para enriquecer la interfaz -->
+<!-- Carrusel de Bootstrap  -->
 <div id="carruselBiblioteca" class="carousel slide mb-5" data-bs-ride="carousel">
     <div class="carousel-inner rounded shadow">
         <div class="carousel-item active bg-dark text-white p-5 text-center" style="min-height: 250px; display: flex; flex-direction: column; justify-content: center;">
@@ -28,38 +28,60 @@
     </button>
 </div>
 
-<!-- Sistema de Rejillas (Grid) y Tarjetas (Cards) con temática de biblioteca -->
-<div class="container">
-    <div class="row g-4 text-center">
+<!-- Contenedor organizado con CSS Flexbox -->
+<div class="container mb-5">
+    <h2 class="text-center mb-4">Nuestros Módulos</h2>
+    <div class="flex-cards-container text-center">
         <!-- Tarjeta 1 -->
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                    <h3 class="card-title text-primary">📚 Libros</h3>
-                    <p class="card-text">Explora nuestro vasto catálogo de libros físicos y digitales. Contamos con obras para todas las edades y gustos literarios.</p>
-                    <a asp-controller="Libros" asp-action="Index" class="btn btn-outline-primary mt-3">Ver Catálogo</a>
-                </div>
+        <div class="card h-100 shadow-sm border-0 flex-card">
+            <div class="card-body">
+                <h3 class="card-title text-primary">📚 Libros</h3>
+                <p class="card-text">Explora nuestro vasto catálogo de libros físicos y digitales. Contamos con obras para todas las edades y gustos literarios.</p>
+                <a asp-controller="Libros" asp-action="Index" class="btn btn-outline-primary mt-auto">Ver Catálogo</a>
             </div>
         </div>
         <!-- Tarjeta 2 -->
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                    <h3 class="card-title text-success">✍️ Autores</h3>
-                    <p class="card-text">Conoce a los escritores detrás de tus historias favoritas. Consulta biografías, fechas de nacimiento y nacionalidades.</p>
-                    <a asp-controller="Autores" asp-action="Index" class="btn btn-outline-success mt-3">Ver Autores</a>
-                </div>
+        <div class="card h-100 shadow-sm border-0 flex-card">
+            <div class="card-body">
+                <h3 class="card-title text-success">✍️ Autores</h3>
+                <p class="card-text">Conoce a los escritores detrás de tus historias favoritas. Consulta biografías, fechas de nacimiento y nacionalidades.</p>
+                <a asp-controller="Autores" asp-action="Index" class="btn btn-outline-success mt-auto">Ver Autores</a>
             </div>
         </div>
         <!-- Tarjeta 3 -->
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body">
-                    <h3 class="card-title text-info">🔖 Categorías</h3>
-                    <p class="card-text">Encuentra exactamente lo que buscas navegando por nuestras secciones de ciencia ficción, romance, historia, ciencia y más.</p>
-                    <a asp-controller="Home" asp-action="Categorias" class="btn btn-outline-info mt-3">Explorar</a>
-                </div>
+        <div class="card h-100 shadow-sm border-0 flex-card">
+            <div class="card-body">
+                <h3 class="card-title text-info">🔖 Categorías</h3>
+                <p class="card-text">Encuentra exactamente lo que buscas navegando por nuestras secciones de ciencia ficción, romance, historia, ciencia y más.</p>
+                <a asp-controller="Home" asp-action="Categorias" class="btn btn-outline-info mt-auto">Explorar</a>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Sección estructurada con CSS Grid -->
+<div class="container grid-section-container mb-5">
+    <h2 class="text-center border-bottom pb-2 mb-4">Libros Destacados del Mes</h2>
+    <div class="grid-libros-destacados">
+        <div class="grid-item shadow-sm">
+            <h4>📖 Cien años de soledad</h4>
+            <span class="badge bg-warning text-dark mb-2">Ficción</span>
+            <p class="small text-muted">Gabriel García Márquez</p>
+        </div>
+        <div class="grid-item shadow-sm">
+            <h4>📖 La casa de los espíritus</h4>
+            <span class="badge bg-warning text-dark mb-2">Ficción</span>
+            <p class="small text-muted">Isabel Allende</p>
+        </div>
+        <div class="grid-item shadow-sm">
+            <h4>📖 Rayuela</h4>
+            <span class="badge bg-secondary mb-2">Clásico</span>
+            <p class="small text-muted">Julio Cortázar</p>
+        </div>
+        <div class="grid-item shadow-sm">
+            <h4>📖 Como agua para chocolate</h4>
+            <span class="badge bg-danger mb-2">Romance</span>
+            <p class="small text-muted">Laura Esquivel</p>
         </div>
     </div>
 </div>
