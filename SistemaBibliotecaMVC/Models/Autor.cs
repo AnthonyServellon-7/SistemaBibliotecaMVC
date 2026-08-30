@@ -1,8 +1,9 @@
-﻿namespace SistemaBibliotecaMVC.Models
+﻿using System;
+
+namespace SistemaBibliotecaMVC.Models
 {
     public class Autor
     {
-        // Creo las propiedades   
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
