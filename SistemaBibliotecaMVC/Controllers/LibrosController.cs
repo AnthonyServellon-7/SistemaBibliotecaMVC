@@ -36,5 +36,50 @@ namespace SistemaBibliotecaMVC.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public IActionResult Editar(int id)
+        {
+            var libro = _context.Libros.Find(id);
+            if (libro == null)
+            {
+                return NotFound();
+            }
+            return View(libro);
+        }
+
+        [HttpPost]
+        public IActionResult Editar(Libro libroModificado)
+        {
+            if (string.IsNullOrEmpty(libroModificado.ImagenUrl))
+            {
+                libroModificado.ImagenUrl = "default.jpg";
+            }
+
+            _context.Libros.Update(libroModificado);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Eliminar(int id)
+        {
+            var libro = _context.Libros.Find(id);
+            if (libro == null)
+            {
+                return NotFound();
+            }
+            return View(libro);
+        }
+
+        [HttpPost, ActionName("Eliminar")]
+        public IActionResult ConfirmarEliminar(int id)
+        {
+            var libro = _context.Libros.Find(id);
+            if (libro != null)
+            {
+                _context.Libros.Remove(libro);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
