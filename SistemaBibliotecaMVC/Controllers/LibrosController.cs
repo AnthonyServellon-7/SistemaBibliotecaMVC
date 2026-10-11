@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SistemaBibliotecaMVC.Models;
 using System.Linq;
 
 namespace SistemaBibliotecaMVC.Controllers
 {
+    [Authorize]
     public class LibrosController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -19,12 +21,14 @@ namespace SistemaBibliotecaMVC.Controllers
             return View(listaLibros);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Crear()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Crear(Libro nuevoLibro)
         {
             if (string.IsNullOrEmpty(nuevoLibro.ImagenUrl))
@@ -37,6 +41,7 @@ namespace SistemaBibliotecaMVC.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Editar(int id)
         {
             var libro = _context.Libros.Find(id);
@@ -48,6 +53,7 @@ namespace SistemaBibliotecaMVC.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult Editar(Libro libroModificado)
         {
             if (string.IsNullOrEmpty(libroModificado.ImagenUrl))
@@ -60,6 +66,7 @@ namespace SistemaBibliotecaMVC.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Eliminar(int id)
         {
             var libro = _context.Libros.Find(id);
@@ -71,6 +78,7 @@ namespace SistemaBibliotecaMVC.Controllers
         }
 
         [HttpPost, ActionName("Eliminar")]
+        [Authorize(Roles = "Admin")]
         public IActionResult ConfirmarEliminar(int id)
         {
             var libro = _context.Libros.Find(id);

@@ -7,7 +7,10 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Listado de Libros</h2>
-        <a asp-action="Crear" class="btn btn-success">+ Registrar Nuevo Libro</a>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Crear" class="btn btn-success">+ Registrar Nuevo Libro</a>
+        }
     </div>
 
     <table class="table table-striped table-hover table-bordered align-middle">
@@ -18,7 +21,10 @@
                 <th>Título</th>
                 <th>Autor</th>
                 <th>Año de Publicación</th>
-                <th class="text-center">Acciones</th>
+                @if (User.IsInRole("Admin"))
+                {
+                    <th class="text-center">Acciones</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -34,10 +40,13 @@
                         <td>@libro.Titulo</td>
                         <td>@libro.Autor</td>
                         <td>@libro.AnioPublicacion</td>
-                        <td class="text-center">
-                            <a asp-action="Editar" asp-route-id="@libro.Id" class="btn btn-warning btn-sm me-1">Editar</a>
-                            <a asp-action="Eliminar" asp-route-id="@libro.Id" class="btn btn-danger btn-sm">Eliminar</a>
-                        </td>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <td class="text-center">
+                                <a asp-action="Editar" asp-route-id="@libro.Id" class="btn btn-warning btn-sm me-1">Editar</a>
+                                <a asp-action="Eliminar" asp-route-id="@libro.Id" class="btn btn-danger btn-sm">Eliminar</a>
+                            </td>
+                        }
                     </tr>
                 }
             }
