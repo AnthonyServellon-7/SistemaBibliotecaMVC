@@ -21,14 +21,15 @@ namespace SistemaBibliotecaMVC.Controllers
             return View(listaLibros);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Bibliotecario")]
         public IActionResult Crear()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Bibliotecario")]
         public IActionResult Crear(Libro nuevoLibro)
         {
             if (string.IsNullOrEmpty(nuevoLibro.ImagenUrl))
@@ -41,7 +42,7 @@ namespace SistemaBibliotecaMVC.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Bibliotecario")]
         public IActionResult Editar(int id)
         {
             var libro = _context.Libros.Find(id);
@@ -53,7 +54,8 @@ namespace SistemaBibliotecaMVC.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Bibliotecario")]
         public IActionResult Editar(Libro libroModificado)
         {
             if (string.IsNullOrEmpty(libroModificado.ImagenUrl))
@@ -66,7 +68,7 @@ namespace SistemaBibliotecaMVC.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Bibliotecario")]
         public IActionResult Eliminar(int id)
         {
             var libro = _context.Libros.Find(id);
@@ -78,7 +80,8 @@ namespace SistemaBibliotecaMVC.Controllers
         }
 
         [HttpPost, ActionName("Eliminar")]
-        [Authorize(Roles = "Admin")]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Bibliotecario")]
         public IActionResult ConfirmarEliminar(int id)
         {
             var libro = _context.Libros.Find(id);

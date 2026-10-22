@@ -30,7 +30,7 @@ using (var scope = app.Services.CreateScope())
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-    string[] roles = { "Admin", "Usuario" };
+    string[] roles = { "Admin", "Bibliotecario", "Usuario" };
     foreach (var role in roles)
     {
         if (!await roleManager.RoleExistsAsync(role))
@@ -53,6 +53,23 @@ using (var scope = app.Services.CreateScope())
         if (result.Succeeded)
         {
             await userManager.AddToRoleAsync(adminUser, "Admin");
+        }
+    }
+
+    var biblioEmail = "biblio@biblioteca.com";
+    var biblioUser = await userManager.FindByEmailAsync(biblioEmail);
+    if (biblioUser == null)
+    {
+        biblioUser = new IdentityUser
+        {
+            UserName = "bibliotecario",
+            Email = biblioEmail,
+            EmailConfirmed = true
+        };
+        var result = await userManager.CreateAsync(biblioUser, "Biblio123!");
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(biblioUser, "Bibliotecario");
         }
     }
 }

@@ -7,7 +7,7 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Listado de Libros</h2>
-        @if (User.IsInRole("Admin"))
+        @if (User.IsInRole("Admin") || User.IsInRole("Bibliotecario"))
         {
             <a asp-action="Crear" class="btn btn-success">+ Registrar Nuevo Libro</a>
         }
@@ -21,7 +21,7 @@
                 <th>Título</th>
                 <th>Autor</th>
                 <th>Año de Publicación</th>
-                @if (User.IsInRole("Admin"))
+                @if (User.IsInRole("Admin") || User.IsInRole("Bibliotecario"))
                 {
                     <th class="text-center">Acciones</th>
                 }
@@ -40,7 +40,7 @@
                         <td>@libro.Titulo</td>
                         <td>@libro.Autor</td>
                         <td>@libro.AnioPublicacion</td>
-                        @if (User.IsInRole("Admin"))
+                        @if (User.IsInRole("Admin") || User.IsInRole("Bibliotecario"))
                         {
                             <td class="text-center">
                                 <a asp-action="Editar" asp-route-id="@libro.Id" class="btn btn-warning btn-sm me-1">Editar</a>
