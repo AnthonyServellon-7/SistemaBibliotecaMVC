@@ -1,19 +1,23 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Data.SqlClient;
 using SistemaBibliotecaMVC.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace SistemaBibliotecaMVC.Controllers
 {
     public class HomeController : Controller
     {
         private readonly string _cadenaConexion;
+        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(IConfiguration configuracion)
+        public HomeController(IConfiguration configuracion, ILogger<HomeController> logger)
         {
-            _cadenaConexion = configuracion.GetConnectionString("DefaultConnection");
+            _cadenaConexion = configuracion.GetConnectionString("DefaultConnection")!;
+            _logger = logger;
         }
 
         public IActionResult Index()
@@ -50,27 +54,38 @@ namespace SistemaBibliotecaMVC.Controllers
         {
             List<Categoria> listaCategorias = new List<Categoria>();
 
-            using (SqlConnection conexion = new SqlConnection(_cadenaConexion))
+            try
             {
-                conexion.Open();
-                using (SqlCommand cmd = new SqlCommand("SELECT Id, Nombre, Descripcion FROM Categorias", conexion))
+                _logger.LogInformation("Iniciando la lectura de la lista de categorías.");
+
+                using (SqlConnection conexion = new SqlConnection(_cadenaConexion))
                 {
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand("SELECT Id, Nombre, Descripcion FROM Categorias", conexion))
                     {
-                        while (reader.Read())
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            listaCategorias.Add(new Categoria
+                            while (reader.Read())
                             {
-                                Id = Convert.ToInt32(reader["Id"]),
-                                Nombre = reader["Nombre"].ToString(),
-                                Descripcion = reader["Descripcion"].ToString()
-                            });
+                                listaCategorias.Add(new Categoria
+                                {
+                                    Id = Convert.ToInt32(reader["Id"]),
+                                    Nombre = reader["Nombre"].ToString(),
+                                    Descripcion = reader["Descripcion"].ToString()
+                                });
+                            }
                         }
                     }
                 }
-            }
 
-            return View(listaCategorias);
+                _logger.LogInformation("Se obtuvieron {Cantidad} categorías de la base de datos.", listaCategorias.Count);
+                return View(listaCategorias);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ocurrió un error al cargar las categorías desde la base de datos.");
+                throw;
+            }
         }
 
         [HttpGet]
@@ -78,44 +93,67 @@ namespace SistemaBibliotecaMVC.Controllers
         {
             Categoria categoria = new Categoria();
 
-            using (SqlConnection conexion = new SqlConnection(_cadenaConexion))
+            try
             {
-                conexion.Open();
-                using (SqlCommand cmd = new SqlCommand("SELECT Id, Nombre, Descripcion FROM Categorias WHERE Id = @Id", conexion))
+                using (SqlConnection conexion = new SqlConnection(_cadenaConexion))
                 {
-                    cmd.Parameters.AddWithValue("@Id", id);
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand("SELECT Id, Nombre, Descripcion FROM Categorias WHERE Id = @Id", conexion))
                     {
-                        if (reader.Read())
+                        cmd.Parameters.AddWithValue("@Id", id);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            categoria.Id = Convert.ToInt32(reader["Id"]);
-                            categoria.Nombre = reader["Nombre"].ToString();
-                            categoria.Descripcion = reader["Descripcion"].ToString();
+                            if (reader.Read())
+                            {
+                                categoria.Id = Convert.ToInt32(reader["Id"]);
+                                categoria.Nombre = reader["Nombre"].ToString();
+                                categoria.Descripcion = reader["Descripcion"].ToString();
+                            }
+                            else
+                            {
+                                _logger.LogWarning("Búsqueda de categoría no encontrada para edición. ID: {Id}.", id);
+                                return NotFound();
+                            }
                         }
                     }
                 }
-            }
 
-            return View(categoria);
+                _logger.LogInformation("Formulario de edición cargado para la categoría con ID {Id}.", id);
+                return View(categoria);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al buscar la categoría con ID {Id} para editar.", id);
+                throw;
+            }
         }
 
         [HttpPost]
         public IActionResult EditarCategoria(Categoria categoria)
         {
-            using (SqlConnection conexion = new SqlConnection(_cadenaConexion))
+            try
             {
-                conexion.Open();
-                using (SqlCommand cmd = new SqlCommand("UPDATE Categorias SET Nombre = @Nombre, Descripcion = @Descripcion WHERE Id = @Id", conexion))
+                using (SqlConnection conexion = new SqlConnection(_cadenaConexion))
                 {
-                    cmd.Parameters.AddWithValue("@Id", categoria.Id);
-                    cmd.Parameters.AddWithValue("@Nombre", categoria.Nombre);
-                    cmd.Parameters.AddWithValue("@Descripcion", categoria.Descripcion);
-                    cmd.ExecuteNonQuery();
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand("UPDATE Categorias SET Nombre = @Nombre, Descripcion = @Descripcion WHERE Id = @Id", conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@Id", categoria.Id);
+                        cmd.Parameters.AddWithValue("@Nombre", categoria.Nombre);
+                        cmd.Parameters.AddWithValue("@Descripcion", categoria.Descripcion);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
-            }
 
-            return RedirectToAction("Categorias");
+                _logger.LogInformation("La categoría con ID {Id} fue modificada correctamente.", categoria.Id);
+                return RedirectToAction("Categorias");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al guardar los cambios de la categoría con ID {Id}.", categoria.Id);
+                throw;
+            }
         }
 
         [HttpGet]
@@ -123,42 +161,73 @@ namespace SistemaBibliotecaMVC.Controllers
         {
             Categoria categoria = new Categoria();
 
-            using (SqlConnection conexion = new SqlConnection(_cadenaConexion))
+            try
             {
-                conexion.Open();
-                using (SqlCommand cmd = new SqlCommand("SELECT Id, Nombre, Descripcion FROM Categorias WHERE Id = @Id", conexion))
+                using (SqlConnection conexion = new SqlConnection(_cadenaConexion))
                 {
-                    cmd.Parameters.AddWithValue("@Id", id);
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand("SELECT Id, Nombre, Descripcion FROM Categorias WHERE Id = @Id", conexion))
                     {
-                        if (reader.Read())
+                        cmd.Parameters.AddWithValue("@Id", id);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            categoria.Id = Convert.ToInt32(reader["Id"]);
-                            categoria.Nombre = reader["Nombre"].ToString();
-                            categoria.Descripcion = reader["Descripcion"].ToString();
+                            if (reader.Read())
+                            {
+                                categoria.Id = Convert.ToInt32(reader["Id"]);
+                                categoria.Nombre = reader["Nombre"].ToString();
+                                categoria.Descripcion = reader["Descripcion"].ToString();
+                            }
+                            else
+                            {
+                                _logger.LogWarning("Búsqueda de categoría inexistente para eliminación. ID: {Id}.", id);
+                                return NotFound();
+                            }
                         }
                     }
                 }
-            }
 
-            return View(categoria);
+                _logger.LogInformation("Formulario de eliminación cargado para la categoría con ID {Id}.", id);
+                return View(categoria);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al buscar la categoría con ID {Id} para eliminar.", id);
+                throw;
+            }
         }
 
         [HttpPost, ActionName("EliminarCategoria")]
         public IActionResult ConfirmarEliminarCategoria(int id)
         {
-            using (SqlConnection conexion = new SqlConnection(_cadenaConexion))
+            try
             {
-                conexion.Open();
-                using (SqlCommand cmd = new SqlCommand("DELETE FROM Categorias WHERE Id = @Id", conexion))
+                using (SqlConnection conexion = new SqlConnection(_cadenaConexion))
                 {
-                    cmd.Parameters.AddWithValue("@Id", id);
-                    cmd.ExecuteNonQuery();
+                    conexion.Open();
+                    using (SqlCommand cmd = new SqlCommand("DELETE FROM Categorias WHERE Id = @Id", conexion))
+                    {
+                        cmd.Parameters.AddWithValue("@Id", id);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
-            }
 
-            return RedirectToAction("Categorias");
+                _logger.LogInformation("La categoría con ID {Id} fue eliminada del sistema.", id);
+                return RedirectToAction("Categorias");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al procesar la eliminación de la categoría con ID {Id}.", id);
+                throw;
+            }
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            var requestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            _logger.LogError("Se capturó un error general en la aplicación. Request ID: {RequestId}", requestId);
+            return View(new ErrorViewModel { RequestId = requestId });
         }
     }
 }

@@ -21,6 +21,11 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Account/AccessDenied";
+});
+
 builder.Services.AddScoped<IAutorService, AutorServiceAlternativo>();
 
 var app = builder.Build();
@@ -78,6 +83,10 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
 }
 
 app.UseHttpsRedirection();
